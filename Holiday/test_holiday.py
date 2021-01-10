@@ -1,27 +1,24 @@
 from datetime import date
 
-import pytest
 
-from Holiday.holiday import say_hello
-
-
-def test_today_is_xmax(mocker):
+def test_today_is_xmax(mocker, holiday):
     given_today(mocker, month=12, day=25)
-    assert say_hello() == "Merry Xmax"
+    assert holiday.say_hello() == "Merry Xmax"
 
 
-def test_today_is_xmax(mocker):
+def test_today_is_xmax_one_day_before_xmax(mocker, holiday):
     given_today(mocker, month=12, day=24)
-    assert say_hello() == "Merry Xmax"
+    assert holiday.say_hello() == "Merry Xmax"
 
 
-def test_today_is_not_xmax(mocker):
+def test_today_is_not_xmax(mocker, holiday):
     given_today(mocker, month=11, day=25)
-    assert say_hello() == "Today Is Not Xmax"
+    assert holiday.say_hello() == "Today Is Not Xmax"
 
 
 def given_today(mocker, month, day):
     ANY_YEAR = 2019
     mocker.patch(
-        "Holiday.holiday.get_today", return_value=date(ANY_YEAR, month, day)
+        "Holiday.holiday.Holiday._Holiday__get_today",
+        return_value=date(ANY_YEAR, month, day),
     )
