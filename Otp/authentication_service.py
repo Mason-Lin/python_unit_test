@@ -12,4 +12,9 @@ def is_valid(account, password):
     if valid_password == password:
         return True
     else:
+        log(f"Account {account} login failed")
         return False
+
+
+def log(message):
+    print(message)
