@@ -19,19 +19,21 @@ class HolidayTests(unittest.TestCase):
         self.response_should_be("Today is not Xmas")
 
     def response_should_be(self, expected):
-        holiday = Holiday()
-        self.assertEqual(expected, holiday.say_hello())
+        self.assertEqual(expected, self.holiday.say_hello())
 
     def given_today(self, month, day):
-        self.fake_get_today.return_value = date(2020, month, day)
+        ANY_YEAR = 2019
+        patch(
+            "Holiday.holiday.Holiday._Holiday__get_today",
+            return_value=date(ANY_YEAR, month, day),
+        ).start()
 
     def setUp(self) -> None:
-        get_today_patcher = patch('Holiday.holiday.Holiday._Holiday__get_today')
-        self.fake_get_today = get_today_patcher.start()
+        self.holiday = Holiday()
 
     def tearDown(self) -> None:
         patch.stopall()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
