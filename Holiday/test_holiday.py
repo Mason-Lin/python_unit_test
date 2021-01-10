@@ -10,6 +10,11 @@ def test_today_is_xmax(mocker):
     assert say_hello() == "Merry Xmax"
 
 
+def test_today_is_xmax(mocker):
+    given_today(mocker, month=12, day=24)
+    assert say_hello() == "Merry Xmax"
+
+
 def test_today_is_not_xmax(mocker):
     given_today(mocker, month=11, day=25)
     assert say_hello() == "Today Is Not Xmax"
