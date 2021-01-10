@@ -1,2 +1,3 @@
 def say_hello():
-    pass
+    return "Merry Xmax"
+
