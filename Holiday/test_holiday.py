@@ -1,22 +1,25 @@
-from datetime import date
-
 import pytest
 
-from Holiday.holiday import say_hello
+from Holiday.holiday import Holiday
 
 
-def test_today_is_xmax(mocker):
-    given_today(mocker, month=12, day=25)
-    assert say_hello() == "Merry Xmax"
+@pytest.mark.parametrize(
+    "fake_today, expected",
+    [
+        ((12, 25), "Merry Xmas"),
+        ((12, 24), "Merry Xmas"),
+        ((11, 25), "Today is not Xmas"),
+    ],
+    indirect=["fake_today"],
+)
+def test_say_hello(mocker, fake_today, expected):
+    given_today(mocker, fake_today)
+    holiday = Holiday()
+    assert expected == holiday.say_hello()
 
 
-def test_today_is_not_xmax(mocker):
-    given_today(mocker, month=11, day=25)
-    assert say_hello() == "Today Is Not Xmax"
-
-
-def given_today(mocker, month, day):
-    ANY_YEAR = 2019
+def given_today(mocker, fake_today):
     mocker.patch(
-        "Holiday.holiday.get_today", return_value=date(ANY_YEAR, month, day)
+        "Holiday.holiday.Holiday._Holiday__get_today",
+        return_value=fake_today,
     )
